@@ -1,15 +1,15 @@
 const authConfig = require("../config/auth");
 const { sign } = require("jsonwebtoken");
-const SessionCreateService = require("../services/SessionCreateService");
+const SessionManipulateService = require("../services/SessionManipulateService");
 const UserRepository = require("../repositories/UserRepository");
 const userRepository = new UserRepository();
-const sessionCreateService = new SessionCreateService(userRepository);
+const sessionManipulateService = new SessionManipulateService(userRepository);
 
 class SessionsController {
   async create(request, response) {
     const { email, password } = request.body;
 
-    const user = await sessionCreateService.execute({ email, password });
+    const user = await sessionManipulateService.create({ email, password });
 
     const { secret, expiresIn } = authConfig.jwt;
 

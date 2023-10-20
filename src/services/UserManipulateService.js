@@ -1,16 +1,31 @@
 const { hash, compare } = require("bcryptjs");
 const AppError = require("../utils/AppError");
 
-const knex = require("../database/knex");
-
-class UserUpdateService {
+class UserManipulateService {
   userRepository;
 
   constructor(userRepository) {
     this.userRepository = userRepository;
   }
 
-  async execute({ name, email, password, old_password, user_id }) {
+  async create({ name, email, password }) {
+    const checkUserExists = await this.userRepository.findByEmail(email);
+
+    if (checkUserExists) {
+      throw new AppError("Este e-mail já está em uso");
+    }
+    const hashedPassword = await hash(password, 8);
+
+    const userCreated = await this.userRepository.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    return userCreated;
+  }
+
+  async update({ name, email, password, old_password, user_id }) {
     const user = await this.userRepository.findById(user_id);
 
     const newUserInfo = {
@@ -47,8 +62,8 @@ class UserUpdateService {
       newUserInfo.password = await hash(password, 8);
     }
 
-    await knex("users").update(newUserInfo).where({ id: user_id });
+    await this.userRepository.update({ newUserInfo }, user_id);
   }
 }
 
-module.exports = UserUpdateService;
+module.exports = UserManipulateService;

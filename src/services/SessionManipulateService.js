@@ -1,7 +1,7 @@
 const AppError = require("../utils/AppError");
 const { compare } = require("bcryptjs");
 
-class SessionCreateService {
+class SessionManipulateService {
   userRepository;
   sessionRepository;
 
@@ -9,7 +9,7 @@ class SessionCreateService {
     this.userRepository = userRepository;
   }
 
-  async execute({ email, password }) {
+  async create({ email, password }) {
     const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
@@ -26,4 +26,4 @@ class SessionCreateService {
   }
 }
 
-module.exports = SessionCreateService;
+module.exports = SessionManipulateService;
