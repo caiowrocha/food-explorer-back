@@ -11,7 +11,11 @@ class UsersController {
   async create(request, response) {
     const { name, email, password } = request.body;
 
-    await userCreateService.execute({ name, email, password });
+    await userCreateService.execute({
+      name,
+      email,
+      password,
+    });
 
     return response.status(201).json();
   }
@@ -20,8 +24,6 @@ class UsersController {
     const { name, email, password, old_password } = request.body;
 
     const user_id = request.user.id;
-
-    console.log(user_id);
 
     await userUpdateService.execute({
       name,
