@@ -11,16 +11,15 @@ class DishesRepository {
     return dish;
   }
 
-  async create({ title, description, category, price, image }) {
+  async create({ title, description, category, price }) {
     const dish_id = await knex("dishes").insert({
       title,
       description,
       category,
       price,
-      image,
     });
 
-    return { id: dish_id };
+    return dish_id;
   }
 
   async addIngredients(ingredients) {

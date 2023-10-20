@@ -21,7 +21,7 @@ class UserManipulateService {
       email,
       password: hashedPassword,
     });
-
+    
     return userCreated;
   }
 
