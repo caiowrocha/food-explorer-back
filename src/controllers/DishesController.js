@@ -4,6 +4,8 @@ const DishesRepository = require("../repositories/DishesRepository");
 const dishesRepository = new DishesRepository();
 const dishesManipulateService = new DishesManipulateService(dishesRepository);
 
+const knex = require("../database/knex");
+
 class DishesController {
   async create(request, response) {
     const { title, description, category, price, ingredients } = request.body;
@@ -50,6 +52,22 @@ class DishesController {
       dish,
       ...ingredients,
     });
+  }
+
+  async delete(request, response) {
+    const { id } = request.params;
+
+    await dishesManipulateService.delete(id);
+
+    return response.status(202).json();
+  }
+
+  async index(request, response) {
+    const { title, ingredients } = request.query;
+
+    const dishes = await dishesManipulateService.index({ title, ingredients });
+
+    return response.status(200).json(dishes);
   }
 }
 

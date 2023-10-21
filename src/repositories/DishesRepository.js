@@ -23,12 +23,42 @@ class DishesRepository {
     return dish_id;
   }
 
-  async addIngredients(ingredients) {
-    await knex("ingredients").insert(ingredients);
+  async delete(id) {
+    await knex("dishes").where({ id }).delete();
   }
 
-  async updateDish({ newDishInfo }, dish_id) {
+  async update({ newDishInfo }, dish_id) {
     await knex("dishes").update(newDishInfo).where({ id: dish_id });
+  }
+
+  async selectJoin({ title, filteredIngredients }) {
+    const dishes = await knex("ingredients")
+      .select([
+        "dishes.id",
+        "dishes.title",
+        "dishes.description",
+        "dishes.category",
+        "dishes.price",
+        "dishes.image",
+      ])
+      .whereLike("dishes.title", `%${title}%`)
+      .innerJoin("dishes", "dishes.id", "ingredients.dish_id")
+      .groupBy("dishes.id")
+      .orderBy("dishes.title");
+
+    return dishes;
+  }
+
+  async select(title) {
+    const dishes = await knex("dishes")
+      .whereLike("title", `%${title}%`)
+      .orderBy("title");
+
+    return dishes;
+  }
+
+  async addIngredients(ingredients) {
+    await knex("ingredients").insert(ingredients);
   }
 
   async deleteIngredient(dish_id) {
@@ -36,7 +66,7 @@ class DishesRepository {
   }
 
   async updateIngredients(ingredientsInfo, dish_id) {
-    await knex("ingredients").where({ dish_id }).delete();
+    await this.deleteIngredient(dish_id);
     await knex("ingredients").insert(ingredientsInfo);
   }
 
@@ -44,6 +74,11 @@ class DishesRepository {
     const ingredients = await knex("ingredients")
       .where({ dish_id })
       .orderBy("title");
+    return ingredients;
+  }
+
+  async grabAllIngredients() {
+    const ingredients = await knex("ingredients");
     return ingredients;
   }
 }

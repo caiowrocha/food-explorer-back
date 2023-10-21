@@ -86,7 +86,7 @@ class DishesManipulateService {
     newDishInfo.price = price ?? newDishInfo.price;
     newDishInfo.description = description ?? newDishInfo.description;
 
-    await this.dishesRepository.updateDish({ newDishInfo }, dish_id);
+    await this.dishesRepository.update({ newDishInfo }, dish_id);
 
     if (ingredients) {
       let ingredientsInsert;
@@ -117,6 +117,40 @@ class DishesManipulateService {
       ...ingredients,
       dish,
     };
+  }
+
+  async delete(id) {
+    await this.dishesRepository.delete(id);
+  }
+
+  async index({ title, ingredients }) {
+    let dishes;
+    if (ingredients) {
+      const filteredIngredients = ingredients
+        .split(",")
+        .map((ingredient) => ingredient.trim());
+
+      dishes = await this.dishesRepository.selectJoin({
+        title,
+        filteredIngredients,
+      });
+    } else {
+      dishes = await this.dishesRepository.select(title);
+    }
+
+    const dishesIngredients = await this.dishesRepository.grabAllIngredients();
+
+    const dishesWithIngredients = dishes.map((dish) => {
+      const dishIg = dishesIngredients.filter((ingredient) => {
+        return (ingredient.dish_id = dish.id);
+      });
+      return {
+        ...dish,
+        ingredients: dishIg,
+      };
+    });
+
+    return dishesWithIngredients;
   }
 }
 
