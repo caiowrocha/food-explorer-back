@@ -2,13 +2,14 @@ require("express-async-errors");
 const AsyncErrors = require("./utils/AsyncError");
 const express = require("express");
 const sqliteConnection = require("./database/sqlite");
+const cors = require("cors");
 const routes = require("./routes");
 
 const dealWithAsyncErrors = new AsyncErrors();
 sqliteConnection();
 const app = express();
 app.use(express.json());
-
+app.use(cors());
 app.use(routes);
 
 app.use(dealWithAsyncErrors.dealWithAsyncErrors);
