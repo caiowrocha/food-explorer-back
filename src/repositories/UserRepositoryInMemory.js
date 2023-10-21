@@ -1,5 +1,15 @@
 class UserRepositoryInMemory {
   users = [];
+  userSession = [
+    {
+      email: "test@email.com",
+      password: "123",
+    },
+    {
+      email: "test2@email.com",
+      password: "456",
+    },
+  ];
 
   async create({ name, email, password }) {
     const user = {

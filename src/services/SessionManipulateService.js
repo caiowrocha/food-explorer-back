@@ -2,15 +2,13 @@ const AppError = require("../utils/AppError");
 const { compare } = require("bcryptjs");
 
 class SessionManipulateService {
-  userRepository;
   sessionRepository;
-
-  constructor(userRepository) {
-    this.userRepository = userRepository;
+  constructor(sessionRepository) {
+    this.sessionRepository = sessionRepository;
   }
 
   async create({ email, password }) {
-    const user = await this.userRepository.findByEmail(email);
+    const user = await this.sessionRepository.findByEmail(email);
 
     if (!user) {
       throw new AppError("E-mail e/ou senha incorreta", 401);

@@ -2,9 +2,9 @@ const UserManipulateService = require("./UserManipulateService");
 const UserRepositoryInMemory = require("../repositories/UserRepositoryInMemory");
 const AppError = require("../utils/AppError");
 
-describe("UserCreateRepository", () => {
+describe("UserRepository", () => {
   let userRepositoryInMemory = null;
-  let userCreateService = null;
+  let userManipulateService = null;
 
   beforeEach(() => {
     userRepositoryInMemory = new UserRepositoryInMemory();
