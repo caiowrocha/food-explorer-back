@@ -8,7 +8,7 @@ class UserManipulateService {
     this.userRepository = userRepository;
   }
 
-  async create({ name, email, password }) {
+  async create({ name, email, password, isAdmin }) {
     const checkUserExists = await this.userRepository.findByEmail(email);
 
     if (checkUserExists) {
@@ -20,8 +20,9 @@ class UserManipulateService {
       name,
       email,
       password: hashedPassword,
+      isAdmin,
     });
-    
+
     return userCreated;
   }
 
@@ -32,6 +33,7 @@ class UserManipulateService {
       name: user.name,
       email: user.email,
       password: user.password,
+      isAdmin: user.isAdmin,
     };
 
     if (!user) {

@@ -6,12 +6,13 @@ const userManipulateService = new UserManipulateService(userRepository);
 
 class UsersController {
   async create(request, response) {
-    const { name, email, password } = request.body;
+    const { name, email, password, isAdmin } = request.body;
 
     await userManipulateService.create({
       name,
       email,
       password,
+      isAdmin,
     });
 
     return response.status(201).json();
