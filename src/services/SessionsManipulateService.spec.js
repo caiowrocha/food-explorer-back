@@ -1,6 +1,6 @@
 const SessionRepositoryInMemory = require("../repositories/SessionRepositoryInMemory");
-const AppError = require("../utils/AppError");
 const SessionManipulateService = require("./SessionManipulateService");
+const AppError = require("../utils/AppError");
 
 describe("SessionManipulateService", () => {
   let sessionRepositoryInMemory = null;
@@ -23,7 +23,7 @@ describe("SessionManipulateService", () => {
     expect(sessionCreated).toHaveProperty("id");
   });
 
-  it("Session should not be created", async () => {
+  it("Session should not be created with an unvalid email and an unvalid password", async () => {
     const session = {
       email: "testxxx@ddddasdaemail.com",
       password: "333333",

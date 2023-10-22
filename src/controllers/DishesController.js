@@ -4,8 +4,6 @@ const DishesRepository = require("../repositories/DishesRepository");
 const dishesRepository = new DishesRepository();
 const dishesManipulateService = new DishesManipulateService(dishesRepository);
 
-const knex = require("../database/knex");
-
 class DishesController {
   async create(request, response) {
     const { title, description, category, price, ingredients } = request.body;

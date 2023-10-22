@@ -42,6 +42,7 @@ class DishesRepository {
         "dishes.image",
       ])
       .whereLike("dishes.title", `%${title}%`)
+      .whereIn("title", filteredIngredients)
       .innerJoin("dishes", "dishes.id", "ingredients.dish_id")
       .groupBy("dishes.id")
       .orderBy("dishes.title");
