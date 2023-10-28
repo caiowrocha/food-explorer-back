@@ -114,8 +114,8 @@ class DishesManipulateService {
     );
 
     return {
-      ...ingredients,
-      dish,
+      ...dish,
+      ingredients,
     };
   }
 

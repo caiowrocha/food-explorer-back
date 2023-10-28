@@ -44,11 +44,10 @@ class DishesController {
   async show(request, response) {
     const { id } = request.params;
 
-    const { dish, ...ingredients } = await dishesManipulateService.show(id);
+    const dish = await dishesManipulateService.show(id);
 
     return response.status(200).json({
       dish,
-      ...ingredients,
     });
   }
 
