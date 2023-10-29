@@ -8,7 +8,7 @@ class DishesController {
   async create(request, response) {
     const { title, description, category, price, ingredients } = request.body;
 
-    // const dishImage = request.file.filename;
+    const dishImage = request.file.filename;
 
     await dishesManipulateService.create({
       title,
@@ -16,7 +16,7 @@ class DishesController {
       category,
       price,
       ingredients,
-      // image: dishImage,
+      image: dishImage,
     });
 
     return response.status(201).json();
@@ -27,7 +27,7 @@ class DishesController {
 
     const id = request.params;
 
-    // const dishImage = request.file.filename;
+    const dishImage = request.file.filename;
 
     await dishesManipulateService.update({
       title,
