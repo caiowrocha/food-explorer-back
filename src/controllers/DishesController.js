@@ -1,8 +1,13 @@
+const DiskStorage = require("../providers/DiskStorage");
 const DishesManipulateService = require("../services/DishesManipulateService");
 const DishesRepository = require("../repositories/DishesRepository");
 
+const diskStorage = new DiskStorage();
 const dishesRepository = new DishesRepository();
-const dishesManipulateService = new DishesManipulateService(dishesRepository);
+const dishesManipulateService = new DishesManipulateService(
+  dishesRepository,
+  diskStorage
+);
 
 class DishesController {
   async create(request, response) {
@@ -36,6 +41,7 @@ class DishesController {
       price,
       ingredients,
       id,
+      image: dishImage,
     });
 
     return response.json();

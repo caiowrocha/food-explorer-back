@@ -24,7 +24,6 @@ class DishesManipulateService {
     }
 
     let dishImage = null;
-
     if (image) {
       dishImage = await this.diskStorage.saveFile(image);
     }
@@ -79,12 +78,19 @@ class DishesManipulateService {
       description: dish.description,
       category: dish.category,
       price: dish.price,
+      image: dish.image,
     };
+
+    let dishImage = null;
+    if (image) {
+      dishImage = await this.diskStorage.saveFile(image);
+    }
 
     newDishInfo.title = title ?? newDishInfo.title;
     newDishInfo.category = category ?? newDishInfo.category;
     newDishInfo.price = price ?? newDishInfo.price;
     newDishInfo.description = description ?? newDishInfo.description;
+    newDishInfo.image = dishImage ?? newDishInfo.image;
 
     await this.dishesRepository.update({ newDishInfo }, dish_id);
 
@@ -92,7 +98,7 @@ class DishesManipulateService {
       let ingredientsInsert;
       if (typeof ingredients === "string") {
         ingredientsInsert = {
-          name: ingredients,
+          title: ingredients,
           dish_id,
         };
       } else if (ingredients.length > 1) {
