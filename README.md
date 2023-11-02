@@ -39,7 +39,7 @@
 1. Run the following command:<br>
 
 ```
-npm test
+>> npm test
 ```
 
 ### Author
